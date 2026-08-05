@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traders Journey Tracker - 31 Days</title>
+    <title>Traders Journey Tracker - 31 Days (7-Column Weekly Layout)</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -38,7 +38,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px; /* Increased max-width to accommodate 7 columns nicely */
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -123,7 +123,8 @@
         /* --- Grid Section --- */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            /* Changed from repeat(5, 1fr) to repeat(7, 1fr) for the new layout */
+            grid-template-columns: repeat(7, 1fr); 
             gap: 15px;
             width: 100%;
             margin-bottom: 30px;
@@ -133,7 +134,7 @@
             background-color: var(--box-bg);
             border: 2px solid var(--box-border);
             border-radius: 12px;
-            aspect-ratio: 4 / 5;
+            aspect-ratio: 4 / 5; /* Retained taller look, adjusted by JS if needed */
             position: relative;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -261,23 +262,43 @@
             color: var(--missed-red);
         }
 
-        /* Responsive Design */
+        /* --- Responsive Design (Updated for 7-Column Layout) --- */
+
+        /* Tablets and smaller desktops: Drop to 5 columns */
+        @media (max-width: 1024px) {
+            .title-main { font-size: 3rem; }
+            .challenge-title { font-size: 2.1rem; }
+            
+            .grid-container {
+                grid-template-columns: repeat(5, 1fr); 
+            }
+        }
+
+        /* Large Phones / Small Tablets: Drop to 4 columns */
         @media (max-width: 768px) {
+            .title-main { font-size: 2.5rem; }
+            .challenge-title { font-size: 1.8rem; }
+            .subtitle { font-size: 1rem; }
+            .tracker-title { font-size: 1.6rem; }
+            
             .grid-container {
                 grid-template-columns: repeat(4, 1fr);
             }
-            .title-main { font-size: 2.5rem; }
-            .challenge-title { font-size: 1.8rem; }
+            
             .footer-legend { flex-direction: column; gap: 15px; text-align: center; }
             .footer-divider { display: none; }
         }
 
+        /* Small Mobile: Drop to 3 columns to prevent squashing */
         @media (max-width: 500px) {
             .grid-container {
                 grid-template-columns: repeat(3, 1fr);
+                gap: 10px; /* Smaller gaps */
             }
             .header-top { flex-direction: column; }
             .discord-icon { display: none; }
+            .day-label { font-size: 0.9rem; }
+            .day-card { border-radius: 8px; }
         }
     </style>
 </head>
@@ -354,6 +375,7 @@
         // Load saved data from localStorage, or start fresh if nothing is saved
         const savedData = JSON.parse(localStorage.getItem('traderChallengeData')) || {};
 
+        // Generate the 31 Day grid (remains the same JS logic)
         for (let i = 1; i <= 31; i++) {
             // Create Card
             const card = document.createElement('div');
